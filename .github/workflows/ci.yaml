@@ -15,15 +15,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-        # Checkout pull request HEAD commit instead of merge commit
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      - run: git diff origin/main..HEAD --name-only | xargs npm run validate-blog --
+      - run: git diff --name-only origin/main HEAD | xargs npm run validate-blog --
 
   update-blogmeta:
     needs: [validate-blog]
@@ -42,7 +39,7 @@ jobs:
       - run: npm ci
       - name: Update blog meta
         run: |
-          git diff origin/main..HEAD --name-status | xargs npm run update-blogmeta --
+          git diff --name-status origin/main HEAD | xargs npm run update-blogmeta --
       - name: Git Commit
         run: |
           git add -N .
