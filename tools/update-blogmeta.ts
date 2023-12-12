@@ -165,5 +165,7 @@ function chunkArray(array: string[]) {
       tempArray = [val];
     }
   }
+  if (tempArray.length > 0) result.push(tempArray);
+
   return result;
 }
