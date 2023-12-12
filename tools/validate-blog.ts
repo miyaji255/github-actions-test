@@ -1,6 +1,7 @@
 import * as path from "path";
 
-process.exit(validateBlog() ? 0 : 1);
+if (!validateBlog()) process.exit(1);
+console.log("\u001b[32m[INFO]\tThe validation was passed.\u001b[m");
 
 /**
  * 変更されたファイルが許可されているものに含まれているか判定します
@@ -26,9 +27,7 @@ function validateBlog() {
     } else if (parsedPath.dir === "src/content/blog-metas") {
       // ブログのメタ情報
       if (parsedPath.ext === ".json") continue;
-    } else if (
-      parsedPath.dir.match(/^src\/content\/blogs\/[^(#/)]*\/[^(#/)]*$/)
-    ) {
+    } else if (parsedPath.dir.match(/^src\/content\/blogs\/[^(#/)]*$/)) {
       // 画像
       if (isImage(parsedPath.ext)) continue;
     } else if (
