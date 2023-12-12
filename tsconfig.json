@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
