@@ -51,7 +51,7 @@ function validateArgs(gitDiffs: string[][]): FileStatus[] | null {
         status[0]!.startsWith("R") &&
         Number.isInteger(Number(status[0]!.slice(1)))
       ) {
-        if (validateFile(status[1]!) && validateFile(status[2]!)) {
+        if (validateFile(status[2]!)) {
           result.push(status as [`R${number}`, string, string]);
         }
       } else
