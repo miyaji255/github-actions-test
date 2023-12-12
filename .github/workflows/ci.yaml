@@ -9,6 +9,7 @@ on:
 permissions:
   contents: read
 
+jobs:
   validate-blog:
     if: startsWith(github.head_ref, 'blog/') && !startsWith(github.head_ref, 'blog/admin/')
     runs-on: ubuntu-22.04
