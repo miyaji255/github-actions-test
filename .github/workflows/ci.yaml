@@ -12,6 +12,7 @@ permissions:
 jobs:
   validate-blog:
     if: startsWith(github.head_ref, 'blog/') && !startsWith(github.head_ref, 'blog/admin/')
+    # needs: [build, lint, typecheck]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -25,12 +26,13 @@ jobs:
           git diff origin/main..HEAD --name-only | xargs npm run validate-blog --
 
   update-blogmeta:
-    # needs: [validate-blog]
+    needs: [validate-blog]
     permissions:
       contents: write
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+        # Checkout pull request HEAD commit instead of merge commit
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - uses: actions/setup-node@v3
@@ -38,7 +40,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      - name: Update blog meta
+      - name: Update Blog Meta
         run: |
           git fetch origin main
           git diff origin/main..HEAD --name-status | xargs npm run update-blogmeta --
@@ -50,6 +52,6 @@ jobs:
             git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
             git add .
-            git commit -m "[Bot] Update blog meta"
+            git commit -m "[Bot] Update Blog Meta"
             git push
           fi
