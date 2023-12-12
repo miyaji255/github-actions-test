@@ -22,7 +22,7 @@ jobs:
       - run: npm ci
       - run: |
           git fetch origin main
-          git diff --name-only origin/main HEAD | xargs npm run validate-blog --
+          git diff origin/main..HEAD --name-only | xargs npm run validate-blog --
 
   update-blogmeta:
     needs: [validate-blog]
@@ -42,7 +42,7 @@ jobs:
       - name: Update blog meta
         run: |
           git fetch origin main
-          git diff --name-status origin/main HEAD | xargs npm run update-blogmeta --
+          git diff origin/main..HEAD --name-status | xargs npm run update-blogmeta --
       - name: Git Commit
         run: |
           git add -N .
