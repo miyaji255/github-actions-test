@@ -9,7 +9,7 @@ type BlogMeta = {
   postDate: string;
   updateDate?: string;
 };
-const gitDiffs = validateArgs(chunkArray(process.argv.slice(2), 2));
+const gitDiffs = validateArgs(chunkArray(process.argv.slice(2)));
 if (gitDiffs === null) process.exit(1);
 updateBlogMeta(gitDiffs);
 
@@ -152,20 +152,18 @@ function predicateTargetFiles([status, file]: readonly [
   return false;
 }
 
-function chunkArray<T>(array: T[], chunkSize: number) {
-  const result: T[][] = [];
-  let tempArray: T[] = [];
+function chunkArray(array: string[]) {
+  const result: string[][] = [];
+  let tempArray: string[] = [];
+
   for (const val of array) {
-    if (tempArray.length < chunkSize) {
+    if (val.startsWith("src/content")) {
+      // ファイルの変更は src/content しか許可されていない
       tempArray.push(val);
     } else {
-      result.push(tempArray);
+      if (tempArray.length > 0) result.push(tempArray);
       tempArray = [val];
     }
-  }
-
-  if (tempArray.length !== 0) {
-    result.push(tempArray);
   }
   return result;
 }
