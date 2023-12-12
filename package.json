@@ -2,10 +2,12 @@
   "name": "github-actions-test",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "validate-blog": "ts-node --esm tools/validate-blog.ts",
-    "update-blogmeta": "ts-node --esm tools/update-blogmeta.ts"
+    "validate-blog": "ts-node  tools/validate-blog.ts",
+    "update-blogmeta": "ts-node   tools/update-blogmeta.ts"
+  },
+  "dependencies": {
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "ts-node": "^10.9.2"

@@ -20,7 +20,9 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      - run: git diff origin/main..HEAD --name-only | xargs npm run validate-blog --
+      - run: |
+          git fetch origin main
+          git diff origin/main..HEAD --name-only | xargs npm run validate-blog --
 
   update-blogmeta:
     needs: [validate-blog]
@@ -39,6 +41,7 @@ jobs:
       - run: npm ci
       - name: Update blog meta
         run: |
+          git fetch origin main
           git diff origin/main..HEAD --name-status | xargs npm run update-blogmeta --
       - name: Git Commit
         run: |
