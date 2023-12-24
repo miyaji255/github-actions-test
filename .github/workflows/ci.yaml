@@ -54,6 +54,7 @@ jobs:
       - name: Git Commit
         env:
           GITHUB_TOKEN: ${{ steps.generate.outputs.token }}
+          GH_TOKEN: ${{ steps.generate.outputs.token }}
         run: |
           git add -N .
           if ! git diff --exit-code --quiet
